@@ -13,6 +13,9 @@
 
 
 %% CORRESPONDING LECTURE FOR PROJECT DESCRIPTION: July 1
+i = readraw("Images/baboon.raw");
+imshow(i);
+impixelinfo;
 %% Geometric Modification
 %% 1-a | Special Effect via Compound Linear Geometric Modification
 p1a("Images/barbara.raw", 5);
