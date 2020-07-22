@@ -1,0 +1,42 @@
+function p2a(img_name)
+    img = readraw(img_name);
+    % Law's filter
+    features = laws(img);
+%     for i=1:9
+%         figure(i);
+%         imshow(features(:,:,i));
+%     end
+    [idx,C] = kmeans(double(img), 4);
+    
+    plot(img(idx==1,1),img(idx==1,2)
+    
+%     final = zeros(size(img,1),size(img,2),3, 'uint8');
+%     final(:,:,1) = img;
+%     final(:,:,2) = img;
+%     final(:,:,3) = img;
+%     for i=1:size(C,1)
+%         for j=1:size(C,2)-1
+% %             x = int16(C(i,j));
+%             x = j
+%             y = int16(C(i,j+1));
+%             if i == 1
+%                 final(y,x,:) = [255 0 0];
+%             elseif i==2
+%                 final(y,x,:) = [255 0 255];
+%             elseif i==3
+%                 final(y,x,:) = [0 50 255];
+%             else
+%                 final(y,x,:) = [0 255 0];
+%             end
+%         end
+%     end
+%     figure(1);
+%     plot(C(:,1), C(:,2), C(:,3), C(:,4));
+    
+%     imshow(final);
+    figure(2);
+    imshow(img);
+    impixelinfo;
+    close all;
+
+    
