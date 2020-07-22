@@ -45,36 +45,77 @@ img = img(:,:,1);
 h = size(img,1);
 w = size(img,2);
 
-x_step = 80;
-y_step = 72;
+chars = segment_chars(img);
 
 % Matrix containing data for each property for each training character
-data = zeros(12,7);
-for r=1:12
+data = zeros(16,12, 'double');
+for i=1:12
     % Extract the character
-    x = mod(c*x_step, w);
-    y = int16(r*y_step/h);
-    char = get_subimg(img, x, y, x_step, y_step);
-    imshow(char);
-    % Area
-    a = obj_area(char);
-    % Perimeter
-    p = obj_perim(char);
-    % Euler Number
-    e = obj_euler_num(char);
-    % Circularity
-    c = obj_circularity(char);
-    % Spatial Moment
-    sm = obj_spatial_moment(char);
-    % Symmetry
-    sym = obj_symmetry(char);
-    % Aspect Ratio
-    ar = obj_aspect_ratio(char);
-
-    data(
+    char = chars(:,:,i);
+    data(:,i) = get_shape_features(char);
 end
+
+save('OCR_data.mat', 'data');
+
 %% Performing OCR
-p3()
+data = matfile('OCR_data.mat').data;
+data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
+
+img = readraw_color("Images/training.raw");
+img = img(:,:,1);
+h = size(img,1);
+w = size(img,2);
+
+chars = segment_chars(img);
+% For each character
+for i=1:12
+    % Extract the character
+    char = chars(:,:,i);
+    features = get_shape_features(char);
+    % Compare to all data values
+    min = realmax;
+    min_char = 0;
+    for j=1:12
+        dist = norm(features - data(:,j), 2);
+        if dist < min
+            min = dist;
+            min_char = j;
+        end
+    end
+    
+    output(i) = data_chars(min_char);
+end
+
+output = output
+%%
+data = matfile('OCR_data.mat').data;
+data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
+
+img = readraw_color("Images/test1.raw");
+img = img(:,:,1);
+h = size(img,1);
+w = size(img,2);
+
+imshow(img);
+impixelinfo;
+
+char = img(60:135,85:125);
+figure(10);
+imshow(char);
+features = get_shape_features(char);
+% Compare to all data values
+min = realmax;
+min_char = 0;
+for j=1:12
+    dist = norm(features - data(:,j), 2);
+    if dist < min
+        min = dist;
+        min_char = j;
+    end
+end
+
+text_char = data_chars(min_char)
+% p3()
 % Use the 7 listed features to analyze the characters and come up with
 % classification metrics for characters
 % You can use another approach if you want (like edge detection or

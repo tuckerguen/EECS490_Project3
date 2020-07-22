@@ -42,39 +42,85 @@ impixelinfo;
 %% Collecting shape property values from training set
 img = readraw_color("Images/training.raw");
 img = img(:,:,1);
+h = size(img,1);
+w = size(img,2);
 
-x_step = 80;
-y_step = 72;
+chars = segment_chars(img);
 
 % Matrix containing data for each property for each training character
-data = zeros(12,7);
-for r=1:12
+data = zeros(12,7, 'double');
+for i=1:12
     % Extract the character
-        x = c*x_step+1;
-        y = r*y_step+1;
-        char = get_subimg(img, x, y, x_step, y_step);
-        imshow(char);
-        % Area
-        a = obj_area(char);
-        % Perimeter
-        p = obj_perim(char);
-        % Euler Number
-        e = obj_euler_num(char);
-        % Circularity
-        c = obj_circularity(char);
-        % Spatial Moment
-        sm = obj_spatial_moment(char);
-        % Symmetry
-        sym = obj_symmetry(char);
-        % Aspect Ratio
-        ar = obj_aspect_ratio(char);
-        
-        data(
+    char = chars(:,:,i);
+    imshow(char);
+    % Area
+    data(1,i) = area(char);
+    % Perimeter
+    data(2,i) = perim(char);
+    % Euler Number
+    data(3,i) = euler_num(char, 4);
+    % Circularity
+    data(4,i) = circularity(data(1,i), data(2,i));
+    % Spatial Moments
+    data(5:14,i) = spatial_moments(char);
+    % Symmetry
+    data(15,i) = symmetry(char);
+    % Aspect Ratio
+    data(16,i) = aspect_ratio(char);
+end
+
+save('OCR_data.mat', 'data');
+
+%% Performing OCR
+data = matfile('OCR_data.mat').data;
+data_chars = ['1','2','3',4,5,6,7,8,9,0,'
+
+img = readraw_color("Images/training.raw");
+img = img(:,:,1);
+h = size(img,1);
+w = size(img,2);
+
+chars = segment_chars(img);
+% For each character
+for i=1:12
+    % Extract the character
+    char = chars(:,:,i);
+    features = zeros(16,1,'double');
+    % Area
+    features(1) = area(char);
+    % Perimeter
+    features(2) = perim(char);
+    % Euler Number
+    features(3) = euler_num(char, 4);
+    % Circularity
+    features(4) = circularity(data(1,i), data(2,i));
+    % Spatial Moments
+    features(5:14) = spatial_moments(char);
+    % Symmetry
+    features(15) = symmetry(char);
+    % Aspect Ratio
+    features(16) = aspect_ratio(char);
+    
+    min = realmax;
+    for i=1:12
+        dist = norm(features - data(:,i), 2);
+        if dist < min
+            min = dist;
+        end
     end
 end
-%% Performing OCR
-p3()
+
+% p3()
 % Use the 7 listed features to analyze the characters and come up with
 % classification metrics for characters
 % You can use another approach if you want (like edge detection or
 % histogram or something for preprocessing)
+
+%%
+I = [ 0 0 0 0 0 0 0;
+      0 1 1 1 1 1 0;
+      0 1 0 1 1 1 0;
+      0 1 0 1 1 1 0;
+      0 1 1 1 1 1 0];
+x = euler_num(I, 8)
+e = bweuler(I,8)
