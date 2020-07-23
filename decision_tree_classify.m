@@ -17,7 +17,7 @@ function text_char = decision_tree_classify(f)
             end
         end
     elseif f(3) == 1 
-        if f(4) > 0.35
+        if f(4) > 0.4
            text_char = '.'; 
         else
            % 1,2,3,5,7

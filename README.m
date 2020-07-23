@@ -33,15 +33,11 @@ p1b("Images/baboon.raw");
 p2("Images/comb1.raw", 5, 3);
 % p2("Images/comb2.raw", 4, 3);
 
-%%
-img = readraw_color("Images/training.raw");
-one = get_subimg(img, 1,1, 84, 72);
-imshow(img);
-impixelinfo;
-%% 3 | Document Processing (Optical Character Recognition)
-%% Collecting shape property values from training set
+%% Document Processing (Optical Character Recognition)
+%% 3-a | Running OCR on training set and two test sets
 p3a();
-
+%% 3-b | Running OCR on cwru.raw
+p4a();
 %%
 close all;
 data_tr = matfile('OCR_data.mat').data;
@@ -86,10 +82,11 @@ nd(:,7:8) = data(:,ind4);
 % rat_diff
 % max(rat_diff)
 
-for i=2:size(data,1)
+for i=1:17
     figure(i);
 %     histogram(nd(i,:));
-    gscatter(nd(1,:), nd(i,:), nd(1,:));
+%     gscatter(nd(1,:), nd(i,:), nd(1,:));
+    plot(data_tr(i,:));
 end
 spreadfigures;
 

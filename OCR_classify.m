@@ -55,62 +55,10 @@ function text_chars = OCR_classify(img)
 
             char = img(ymin:ymax, xmin:xmax);
             char = crop(char);
-            imshow(char);
             c = c+1;
             % Classify
             features = get_shape_features(char);
-%             data_t2(:,tc) = features;
             text_chars(tc) = decision_tree_classify(features);
             tc = tc+1;
         end
     end
-%     save('OCR_data_test2.mat', 'data_t2');
-
-
-
-    function cropped = crop(img)
-        h = size(img,1);
-        w = size(img,2);
-        cropped = img;
-        img = invert_bin_image(img);
-        img = to_binary(img);
-        % right, left, up, down most pixels
-        rm = 0;
-        lm = w+1;
-        um = h+1;
-        dm = 0;
-
-        for i=1:h
-            for j=1:w
-                % is an object pixel
-                if img(i,j) == 1
-                    if i < um
-                        um = i;
-                    elseif i > dm
-                        dm = i;
-                    elseif j < lm
-                        lm = j-1;
-                    elseif j > rm
-                        rm = j;
-                    end
-                end
-            end
-        end
-        cropped = cropped(um-1:dm+1,lm-2:rm+1);
-    
-
-    function white = is_white_row(img,r)
-        white = true;
-        for c=1:size(img,1)
-            if img(r,c) == 0
-                white = false;
-            end
-        end
-        
-    function white = is_white_col(img,c, prev_row, max_row)
-        white = true;
-        for r=prev_row:max_row
-            if img(r,c) == 0
-                white = false;
-            end
-        end
