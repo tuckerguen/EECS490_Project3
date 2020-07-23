@@ -26,11 +26,6 @@ function ar = aspect_ratio(img)
         end
     end
     
-    img(:,lm) = 170;
-    img(:,rm) = 170;
-    img(dm,:) = 170;
-    img(um,:) = 170;
-    
     objw = double(rm - lm);
     objh = double(dm - um);
     

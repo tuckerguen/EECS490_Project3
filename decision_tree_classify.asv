@@ -1,0 +1,24 @@
+function text_char = decision_tree_classify(f)
+    if f(4) > 0.35
+        text_char = '.';
+    else
+        if f(3) == 1
+            if f(11) < 20
+                text_char = '*';
+            else
+                if f(10) < 175
+                    if f(9) > 150
+                        text_char3
+                    elseif f(9) <150 && f(9) > 65
+                        
+                        
+                else
+                    
+                end
+            end
+        elseif f(3) == 0
+            
+        elseif f(3) == -1
+            text_char = '8';
+        end
+    end

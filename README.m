@@ -42,9 +42,6 @@ impixelinfo;
 %% Collecting shape property values from training set
 img = readraw_color("Images/training.raw");
 img = img(:,:,1);
-h = size(img,1);
-w = size(img,2);
-
 chars = segment_chars(img);
 
 % Matrix containing data for each property for each training character
@@ -52,42 +49,25 @@ data = zeros(16,12, 'double');
 for i=1:12
     % Extract the character
     char = chars(:,:,i);
-    data(:,i) = get_shape_features(char);
+%     data(:,i) = get_shape_features(char);
+    text_char = OCR_classify(char)
 end
 
 save('OCR_data.mat', 'data');
 
-%% Performing OCR
-data = matfile('OCR_data.mat').data;
-data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
-
-img = readraw_color("Images/training.raw");
+%% Performing OCR on Test Sets
+img = readraw_color("Images/cwru.raw");
 img = img(:,:,1);
-h = size(img,1);
-w = size(img,2);
+img = to_binary(img)*255;
 
-chars = segment_chars(img);
-% For each character
-for i=1:12
-    % Extract the character
-    char = chars(:,:,i);
-    features = get_shape_features(char);
-    % Compare to all data values
-    min = realmax;
-    min_char = 0;
-    for j=1:12
-        dist = norm(features - data(:,j), 2);
-        if dist < min
-            min = dist;
-            min_char = j;
-        end
-    end
-    
-    output(i) = data_chars(min_char);
-end
+figure(2);
+imshow(img);
+impixelinfo;
 
-output = output
-%%
+text_chars = OCR_classify(img)
+
+
+%% Testing classification
 data = matfile('OCR_data.mat').data;
 data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
 
@@ -99,7 +79,7 @@ w = size(img,2);
 imshow(img);
 impixelinfo;
 
-char = img(60:135,85:125);
+char = img(60:135,164:198);
 figure(10);
 imshow(char);
 features = get_shape_features(char);
@@ -108,7 +88,7 @@ min = realmax;
 min_char = 0;
 for j=1:12
     dist = norm(features - data(:,j), 2);
-    if dist < min
+    if features(3) == data(3,j) && dist < min
         min = dist;
         min_char = j;
     end
@@ -120,3 +100,15 @@ text_char = data_chars(min_char)
 % classification metrics for characters
 % You can use another approach if you want (like edge detection or
 % histogram or something for preprocessing)
+%%
+close all;
+data = matfile('OCR_data.mat').data;
+data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
+% for i=1:12
+%    data(17,i) = i;
+% end
+for i=1:16
+    figure(i);
+    plot(data(i,1:10));
+end
+spreadfigures;

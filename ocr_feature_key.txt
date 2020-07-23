@@ -1,0 +1,18 @@
+Key:
+-----------------------------
+1. area
+2. perimeter
+3. euler number
+4. circularity
+5. spatialmoment1-1
+6. spatialmoment1-2
+7. spatialmoment1-3
+8. spatialmoment2-1
+9. spatialmoment2-2
+10. spatialmoment2-3
+11. spatialmoment3-1
+12. spatialmoment3-2
+13. spatialmoment3-3
+14. spatialmoment3-4
+15. symmetry
+16. aspect ratio

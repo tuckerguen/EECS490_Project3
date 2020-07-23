@@ -11,6 +11,6 @@ function features = get_shape_features(char)
     % Spatial Moments
     features(5:14) = spatial_moments(char);
     % Symmetry
-    features(15) = symmetry(char);
+    features(15:16) = symmetry(char);
     % Aspect Ratio
-    features(16) = aspect_ratio(char);
+    features(17) = aspect_ratio(char);
