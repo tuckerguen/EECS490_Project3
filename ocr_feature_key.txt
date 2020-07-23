@@ -14,5 +14,6 @@ Key:
 12. spatialmoment3-2
 13. spatialmoment3-3
 14. spatialmoment3-4
-15. symmetry
-16. aspect ratio
+15. x-axis symmetry
+16. y-axis symmetry
+17. aspect ratio

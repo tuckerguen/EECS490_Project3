@@ -6,9 +6,6 @@ function score = symmetry(img)
     xmirr = xmirror(img);
     ymirr = ymirror(img);
     
-%     imshow(xmirr*255);
-%     imshow(ymirr*255);
-    
     score(1) = mean_sqerr(img, xmirr);
     score(2) = mean_sqerr(img, ymirr);
 

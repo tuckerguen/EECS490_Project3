@@ -40,35 +40,61 @@ imshow(img);
 impixelinfo;
 %% 3 | Document Processing (Optical Character Recognition)
 %% Collecting shape property values from training set
-img = readraw_color("Images/training.raw");
-img = img(:,:,1);
-chars = segment_chars(img);
+p3a();
 
-% Matrix containing data for each property for each training character
-data = zeros(16,12, 'double');
-for i=1:12
-    % Extract the character
-    char = chars(:,:,i);
-%     data(:,i) = get_shape_features(char);
-    text_char = OCR_classify(char)
+%%
+close all;
+data_tr = matfile('OCR_data.mat').data;
+data_t1 = matfile('OCR_data_test1.mat').data_t1;
+data_t2 = matfile('OCR_data_test2.mat').data_t2;
+data = zeros(18,27);
+data_ids = [1 2 3 4 5 6 7 8 9 10 11 12 5 12 6 9 11 3 7 12 4 3 2 11 1 10 8];
+data(1,:) = data_ids;
+data(2:18,:) = [data_tr data_t1 data_t2];
+data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
+
+nd = zeros(18,4);
+ind1 = data(1,:) ==10;
+nd(:,1:2) = data(:,ind1);
+ind2 = data(1,:) == 4;
+nd(:,3:4) = data(:,ind2);
+ind3 = data(1,:) == 6;
+nd(:,5:6) = data(:,ind3);
+ind4 = data(1,:) == 9;
+nd(:,7:8) = data(:,ind4);
+
+% nd = zeros(18,5);
+% ind1 = data(1,:) ==1;
+% nd(:,1:2) = data(:,ind1);
+% ind2 = data(1,:) ==2;
+% nd(:,3:4) = data(:,ind2);
+% ind3 = data(1,:) ==3;
+% nd(:,5:7) = data(:,ind3);
+% ind5 = data(1,:) ==5;
+% nd(:,8:9) = data(:,ind5);
+% ind7 = data(1,:) ==7;
+% nd(:,10:11) = data(:,ind7);
+% 
+
+% rat_diff = zeros(17,1);
+% for i=1:size(data_tr,1)
+%     range = max(data_tr(i,:)) - min(data_tr(i,:));
+%     six  = data_tr(i,1);
+%     nine = data_tr(i,7);
+%     rat_diff(i) = (max(six,nine)-min(six,nine))/range;
+% end
+% rat_diff
+% max(rat_diff)
+
+for i=2:size(data,1)
+    figure(i);
+%     histogram(nd(i,:));
+    gscatter(nd(1,:), nd(i,:), nd(1,:));
 end
-
-save('OCR_data.mat', 'data');
-
-%% Performing OCR on Test Sets
-img = readraw_color("Images/cwru.raw");
-img = img(:,:,1);
-img = to_binary(img)*255;
-
-figure(2);
-imshow(img);
-impixelinfo;
-
-text_chars = OCR_classify(img)
-
+spreadfigures;
 
 %% Testing classification
-data = matfile('OCR_data.mat').data;
+data_tr = matfile('OCR_data.mat').data;
 data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
 
 img = readraw_color("Images/test1.raw");
@@ -87,8 +113,8 @@ features = get_shape_features(char);
 min = realmax;
 min_char = 0;
 for j=1:12
-    dist = norm(features - data(:,j), 2);
-    if features(3) == data(3,j) && dist < min
+    dist = norm(features - data_tr(:,j), 2);
+    if features(3) == data_tr(3,j) && dist < min
         min = dist;
         min_char = j;
     end
@@ -100,15 +126,3 @@ text_char = data_chars(min_char)
 % classification metrics for characters
 % You can use another approach if you want (like edge detection or
 % histogram or something for preprocessing)
-%%
-close all;
-data = matfile('OCR_data.mat').data;
-data_chars = ['1','2','3','4','5','6','7','8','9','0','*','.'];
-% for i=1:12
-%    data(17,i) = i;
-% end
-for i=1:16
-    figure(i);
-    plot(data(i,1:10));
-end
-spreadfigures;
