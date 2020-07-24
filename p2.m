@@ -21,9 +21,6 @@ function p2(img_name, k, W)
         segmented(y,x) = (idx(i)-1)*color_inc;   
     end
 
-    figure(10);
-    imshow(segmented);
-
     final = cleanup_segmentation(segmented, 25);
     
     project_showpair(segmented, final, img_name, "cleaned");

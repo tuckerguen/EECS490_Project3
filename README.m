@@ -37,8 +37,8 @@ p1b("Images/baboon.raw", true);
 %               "Images/OUT_p2_cleaned" + img_name
 % Parameters: k = number of classes (textures) in image
 %             W = window size for neighborhood stddev
-p2("Images/comb1.raw", 5, 20);
-p2("Images/comb2.raw", 4, 11);
+p2("Images/comb1.raw", 5, 10);
+p2("Images/comb2.raw", 4, 5);
 %% Document Processing (Optical Character Recognition)
 %% 3-a | Running OCR on training set and two test sets
 % M-file name: p4a.m
