@@ -11,8 +11,7 @@ function perim = obj_perim(obj)
             end
         end
     end
-    figure(10);
-    imshow(p);
+
     
     function edge = is_edge(obj,i,j)
         height = size(obj,1);

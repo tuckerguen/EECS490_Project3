@@ -38,7 +38,7 @@ function features = laws_feature_extract(img, W)
         % apply laws filter
         M = convolve_double(img, laws(:,:,i));
         % Compute sliding window energy per-pixel (stddev)
-        T = neighborhood_stddev(img, M, W);
+        T = neighborhood_stddev1(img, M, W);
         % Convert stddev mat T to a vector feature (of energy)
         feature = to_vec(T);
         % store the feature 

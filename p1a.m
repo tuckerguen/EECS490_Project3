@@ -15,5 +15,5 @@ function p1a(img_name, t)
     project_show(final, img_name, "special effect, t=" + t);
     
     out_filename = "Images/OUT_p1a_" + t + "_" + ...
-        extractBetween(img_name, 8, strlength(img_name))
+        extractBetween(img_name, 8, strlength(img_name));
     writeraw(final, out_filename);

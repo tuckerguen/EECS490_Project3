@@ -79,6 +79,7 @@ function p3a()
     trchars = OCR_classify(img);
     project_show(img, "Images/training.raw", "Characters: " + trchars);
     
+    
     % Run on test1
     img = readraw_color("Images/test1.raw");
     img = img(:,:,1);

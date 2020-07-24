@@ -6,4 +6,3 @@ function euler_num = euler_num(char, conn)
     else
         DISP("Connectivity must be 4 or 8");
     end
-%     euler_num = bweuler(char,4);

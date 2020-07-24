@@ -21,10 +21,12 @@ function p2(img_name, k, W)
         segmented(y,x) = (idx(i)-1)*color_inc;   
     end
 
-    figure(10);
-    imshow(segmented);
-
-    final = cleanup_segmentation(segmented, 25);
+    if k==4
+        for i=1:
+    else
+        final = cleanup_segmentation(segmented, 25);
+    end
+    
     
     project_showpair(segmented, final, img_name, "cleaned");
     project_showpair(img, segmented, img_name, "segmented");
@@ -36,5 +38,4 @@ function p2(img_name, k, W)
     out_filename = "Images/OUT_p2_cleaned" + ...
         extractBetween(img_name, 8, strlength(img_name));
     writeraw(final, out_filename);
-
  
